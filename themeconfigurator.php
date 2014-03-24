@@ -225,7 +225,7 @@ class ThemeConfigurator extends Module
 	
 	public function hookActionObjectLanguageAddAfter($params)
 	{
-		return $this->installFixtures(array((int)$params['object']->id));
+		return $this->installFixtures(array(array('id_lang' => (int)$params['object']->id)));
 	}
 
 	public function hookdisplayTopColumn()
