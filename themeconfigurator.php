@@ -37,7 +37,7 @@ class ThemeConfigurator extends Module
 	{
 		$this->name = 'themeconfigurator';
 		$this->tab = 'front_office_features';
-		$this->version = '0.3';
+		$this->version = '0.5';
 		$this->bootstrap = true;
 		$this->secure_key = Tools::encrypt($this->name);
 		$this->default_language = Language::getLanguage(Configuration::get('PS_LANG_DEFAULT'));
@@ -46,6 +46,7 @@ class ThemeConfigurator extends Module
 		parent::__construct();
 		$this->displayName = $this->l('Theme configurator');
 		$this->description = $this->l('Configure the main elements of your theme.');
+		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
 		$this->module_path = _PS_MODULE_DIR_.$this->name.'/';
 		$this->uploads_path = _PS_MODULE_DIR_.$this->name.'/img/';
 		$this->admin_tpl_path = _PS_MODULE_DIR_.$this->name.'/views/templates/admin/';
