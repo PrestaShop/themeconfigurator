@@ -688,6 +688,26 @@ class ThemeConfigurator extends Module
 
 	protected function getConfigurableModules()
 	{
+		// Construct the description for the 'Enable Live Configurator' switch
+		if ($this->context->shop->getBaseURL())
+		{
+			$desc = $this->l('Only you can see this [1]on your Front-Office[/1] - your visitors will not see this tool.');
+
+			$url = $this->context->shop->getBaseURL()
+				.((Configuration::get('PS_REWRITING_SETTINGS') && count(Language::getLanguages(true)) > 1) ? Language::getIsoById($this->context->employee->id_lang).'/' : '')
+				.(Configuration::get('PS_REWRITING_SETTINGS') ? '' : 'index.php')
+				.'?live_configurator_token='.$this->getLiveConfiguratorToken()
+				.'&id_employee='.(int)$this->context->employee->id
+				.'&id_shop='.(int)$this->context->shop->id
+				.(Configuration::get('PS_TC_THEME') != '' ? '&theme='.Configuration::get('PS_TC_THEME') : '')
+				.(Configuration::get('PS_TC_FONT') != '' ? '&theme_font='.Configuration::get('PS_TC_FONT') : '');
+
+			$link = '<a href="'.$url.'" onclick="return !window.open($(this).attr(\'href\'));">';
+			$desc = Translate::smartyPostProcessTranslation($desc, array('tags' => array($link)));
+		}
+		else
+			$desc = $this->l('Only you can see this on your Front-Office - your visitors will not see this tool.');
+
 		return array(
 			array(
 				'label' => $this->l('Display links to your store\'s social accounts (Twitter, Facebook, etc.)'),
@@ -741,15 +761,7 @@ class ThemeConfigurator extends Module
 				'name' => 'live_conf',
 				'value' => (int)Tools::getValue('PS_TC_ACTIVE', Configuration::get('PS_TC_ACTIVE')),
 				'hint' => $this->l('The customization tool allows you to make color and font changes in your theme.'),
-				'desc' => sprintf($this->l('Only you can see this %s - your visitors will not see this tool.'), $this->context->shop->getBaseURL() ? '<a href="'.$this->context->shop->getBaseURL()
-						.((Configuration::get('PS_REWRITING_SETTINGS') && count(Language::getLanguages(true)) > 1) ? Language::getIsoById($this->context->employee->id_lang).'/' : '')
-						.(Configuration::get('PS_REWRITING_SETTINGS') ? '' : 'index.php')
-						.'?live_configurator_token='.$this->getLiveConfiguratorToken()
-						.'&id_employee='.(int)$this->context->employee->id
-						.'&id_shop='.(int)$this->context->shop->id
-						.(Configuration::get('PS_TC_THEME') != '' ? '&theme='.Configuration::get('PS_TC_THEME') : '')
-						.(Configuration::get('PS_TC_FONT') != '' ? '&theme_font='.Configuration::get('PS_TC_FONT') : '')
-						.'" onclick="return !window.open($(this).attr(\'href\'));">on your front office</a>' : 'on your front office')
+				'desc' => $desc
 			)
 		);
 	}
