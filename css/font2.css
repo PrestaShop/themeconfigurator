@@ -1,9 +1,4 @@
-@font-face {
-  font-family: 'Josefin Slab';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Josefin Slab'), local('JosefinSlab'), url(http://themes.googleusercontent.com/static/fonts/josefinslab/v4/46aYWdgz-1oFX11flmyEfXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
-}
+@import url('//fonts.googleapis.com/css?family=Josefin+Slab');
 
 h1, h2, h3, h4, h5 {
 	font-family: 'Josefin Slab', sans-serif !important;
