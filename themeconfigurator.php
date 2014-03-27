@@ -37,7 +37,7 @@ class ThemeConfigurator extends Module
 	{
 		$this->name = 'themeconfigurator';
 		$this->tab = 'front_office_features';
-		$this->version = '0.5';
+		$this->version = '0.6';
 		$this->bootstrap = true;
 		$this->secure_key = Tools::encrypt($this->name);
 		$this->default_language = Language::getLanguage(Configuration::get('PS_LANG_DEFAULT'));
@@ -360,8 +360,7 @@ class ThemeConfigurator extends Module
 					id_shop = '.(int)$this->context->shop->id.' AND
 					hook = \''.pSQL(Tools::getValue('item_hook')).'\')'
 			);
-
-			$this->context->smarty->assign('confirmation', $this->l('Successful deletion.'));
+			Tools::redirectAdmin('index.php?tab=AdminModules&configure='.$this->name.'&conf=6&token='.Tools::getAdminTokenLite('AdminModules'));
 		}
 		else
 			$this->context->smarty->assign('error', $this->l('Can\'t delete the slide.'));

@@ -2,7 +2,7 @@
 <module>
 	<name>themeconfigurator</name>
 	<displayName><![CDATA[Theme configurator]]></displayName>
-	<version><![CDATA[0.5]]></version>
+	<version><![CDATA[0.6]]></version>
 	<description><![CDATA[Configure the main elements of your theme.]]></description>
 	<author><![CDATA[PrestaShop]]></author>
 	<tab><![CDATA[front_office_features]]></tab>

@@ -50,7 +50,7 @@
 								</button>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="#" name="removeItem" class="link-item-delete">
+										<a href="{$htmlitems.postAction|escape:'htmlall':'UTF-8'}&removeItem&item_id={$hItem.id_item|escape:'htmlall':'UTF-8'}" name="removeItem" class="link-item-delete">
 											<i class="icon-trash"></i> {l s='Delete item' mod='themeconfigurator'}
 										</a>
 									</li>
