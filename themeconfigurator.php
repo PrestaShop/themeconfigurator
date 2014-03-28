@@ -37,7 +37,7 @@ class ThemeConfigurator extends Module
 	{
 		$this->name = 'themeconfigurator';
 		$this->tab = 'front_office_features';
-		$this->version = '0.6';
+		$this->version = '0.7';
 		$this->bootstrap = true;
 		$this->secure_key = Tools::encrypt($this->name);
 		$this->default_language = Language::getLanguage(Configuration::get('PS_LANG_DEFAULT'));
@@ -544,7 +544,7 @@ class ThemeConfigurator extends Module
 					\''.pSQL($image).'\',
 					\''.pSQL($image_w).'\',
 					\''.pSQL($image_h).'\',
-					\''.pSQL($content).'\',
+					\''.pSQL($content, true).'\',
 					1)
 			')
 		)

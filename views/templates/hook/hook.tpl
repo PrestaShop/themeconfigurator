@@ -38,7 +38,7 @@
 					{/if}
 					{if $hItem.html}
 						<div class="item-html">
-							{$hItem.html|escape:'htmlall':'UTF-8'} <i class="icon-double-angle-right"></i>
+							{$hItem.html} <i class="icon-double-angle-right"></i>
 						</div>
 					{/if}
 				{if $hItem.url}
