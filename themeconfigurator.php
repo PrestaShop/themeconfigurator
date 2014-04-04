@@ -37,7 +37,7 @@ class ThemeConfigurator extends Module
 	{
 		$this->name = 'themeconfigurator';
 		$this->tab = 'front_office_features';
-		$this->version = '0.7';
+		$this->version = '0.8';
 		$this->bootstrap = true;
 		$this->secure_key = Tools::encrypt($this->name);
 		$this->default_language = Language::getLanguage(Configuration::get('PS_LANG_DEFAULT'));
@@ -114,7 +114,7 @@ class ThemeConfigurator extends Module
 					`title` VARCHAR(100),
 					`title_use` tinyint(1) unsigned NOT NULL DEFAULT \'0\',
 					`hook` VARCHAR(100),
-					`url` VARCHAR(100),
+					`url` TEXT,
 					`target` tinyint(1) unsigned NOT NULL DEFAULT \'0\',
 					`image` VARCHAR(100),
 					`image_w` VARCHAR(10),
