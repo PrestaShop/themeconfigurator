@@ -29,10 +29,10 @@
 
 /* Top hook CSS */
 #htmlcontent_top {
-	float: right;
-	width: 33.4%;
-	max-width: 391px;
-	padding-left: 10px;
+    float: right;
+    width: 33%;
+    max-width: 391px;
+    padding-left: 4px;
 	@media (max-width: $screen-xs-max) { // max 767px
 		width: 100%;
 		max-width: 100%;
