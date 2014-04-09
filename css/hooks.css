@@ -23,7 +23,7 @@
     float: right;
     width: 33%;
     max-width: 391px;
-    padding-left: 4px;
+    padding-left: 5px;
 }
   @media (max-width: 767px) {
     #htmlcontent_top {
