@@ -431,7 +431,6 @@ class ThemeConfigurator extends Module
 		{
 			$type = Tools::strtolower(Tools::substr(strrchr($image['name'], '.'), 1));
 			$img_name = Tools::encrypt($image['name'].sha1(microtime())).'.'.$type;
-			Configuration::set('PS_IMAGE_QUALITY', 'png_all');
 			if (ImageManager::resize($tmp_name, dirname(__FILE__).'/img/'.$img_name, $image_w, $image_h))
 				$res = true;
 		}
