@@ -16,7 +16,7 @@ function upgrade_module_0_8($object)
 	$query = 'ALTER TABLE  `'._DB_PREFIX_.'themeconfigurator` CHANGE  `url`  `url` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
 
 	if (!Db::getInstance()->execute($query))
-		$object->upgrade_detail[$upgrade_version][] = $object->l('Can\'t change '._DB_PREFIX_.'themeconfigurator.url type');
+		$object->upgrade_detail[$upgrade_version][] = $object->l('Can\'t change %s themeconfigurator.url type');
 
 
 	return (bool)!count($object->upgrade_detail[$upgrade_version]);
