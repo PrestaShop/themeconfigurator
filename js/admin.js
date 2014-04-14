@@ -56,4 +56,19 @@ jQuery(document).ready(function() {
 		$(this).addClass('active');
 		$("#lang-id").val(lang_id)
 	});
+
+	$('#live_conf_on').click(function() {
+		if ($(this).is(":checked"))
+			$('#live_conf_button').attr('disabled', false);
+	});
+
+	$('#live_conf_off').click(function() {
+		if ($(this).is(":checked"))
+			$('#live_conf_button').attr('disabled', 'disabled');
+	});
+
+	if ($('#live_conf_on').is(":checked"))
+		$('#live_conf_button').attr('disabled', false);
+	else
+		$('#live_conf_button').attr('disabled', 'disabled');
 });

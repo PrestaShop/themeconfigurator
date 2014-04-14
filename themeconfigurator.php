@@ -690,8 +690,6 @@ class ThemeConfigurator extends Module
 		// Construct the description for the 'Enable Live Configurator' switch
 		if ($this->context->shop->getBaseURL())
 		{
-			$desc = $this->l('Only you can see this [1]on your Front-Office[/1] - your visitors will not see this tool.');
-
 			$url = $this->context->shop->getBaseURL()
 				.((Configuration::get('PS_REWRITING_SETTINGS') && count(Language::getLanguages(true)) > 1) ? Language::getIsoById($this->context->employee->id_lang).'/' : '')
 				.(Configuration::get('PS_REWRITING_SETTINGS') ? '' : 'index.php')
@@ -701,8 +699,9 @@ class ThemeConfigurator extends Module
 				.(Configuration::get('PS_TC_THEME') != '' ? '&theme='.Configuration::get('PS_TC_THEME') : '')
 				.(Configuration::get('PS_TC_FONT') != '' ? '&theme_font='.Configuration::get('PS_TC_FONT') : '');
 
-			$link = '<a href="'.$url.'" onclick="return !window.open($(this).attr(\'href\'));">';
-			$desc = Translate::smartyPostProcessTranslation($desc, array('tags' => array($link)));
+			$desc = '<a class="btn btn-default" href="'.$url.'" onclick="return !window.open($(this).attr(\'href\'));" id="live_conf_button">'
+				.$this->l('View').' <i class="icon-external-link"></i></a><br />'
+				.$this->l('Only you can see this on your Front-Office - your visitors will not see this tool.');
 		}
 		else
 			$desc = $this->l('Only you can see this on your Front-Office - your visitors will not see this tool.');
