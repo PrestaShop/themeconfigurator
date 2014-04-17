@@ -37,7 +37,7 @@ class ThemeConfigurator extends Module
 	{
 		$this->name = 'themeconfigurator';
 		$this->tab = 'front_office_features';
-		$this->version = '0.8';
+		$this->version = '0.9';
 		$this->bootstrap = true;
 		$this->secure_key = Tools::encrypt($this->name);
 		$this->default_language = Language::getLanguage(Configuration::get('PS_LANG_DEFAULT'));
@@ -429,8 +429,8 @@ class ThemeConfigurator extends Module
 		$res = false;
 		if (is_array($image) && (ImageManager::validateUpload($image, $this->max_image_size) === false) && ($tmp_name = tempnam(_PS_TMP_IMG_DIR_, 'PS')) && move_uploaded_file($image['tmp_name'], $tmp_name))
 		{
-			$type = Tools::strtolower(Tools::substr(strrchr($image['name'], '.'), 1));
-			$img_name = Tools::encrypt($image['name'].sha1(microtime())).'.'.$type;
+			$salt = sha1(microtime());
+			$img_name = $salt.'_'.$image['name'];
 			if (ImageManager::resize($tmp_name, dirname(__FILE__).'/img/'.$img_name, $image_w, $image_h))
 				$res = true;
 		}
