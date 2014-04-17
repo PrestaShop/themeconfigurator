@@ -32,7 +32,7 @@
 </ul>
 <div class="lang-items tab-content">
 {foreach name=langs from=$htmlitems.items key=lang item=langItems}
-	<div id="items-{$lang|escape:'htmlall':'UTF-8'}" class="lang-content tab-pane {if $smarty.foreach.langs.first}active{/if}" >
+	<div id="items-{$lang|escape:'htmlall':'UTF-8'}" class="lang-content tab-pane {if $lang == $htmlitems.lang.default.id_lang}active{/if}" >
 	{foreach name=hooks from=$langItems key=hook item=hookItems}
 		<h4 class="hook-title">{l s='Hook' mod='themeconfigurator'} "{$hook|escape:'htmlall':'UTF-8'}"</h4>
 		{if $hookItems}
