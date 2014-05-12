@@ -451,6 +451,7 @@ class ThemeConfigurator extends Module
 		{
 			Configuration::updateValue('PS_QUICK_VIEW', (int)Tools::getValue('quick_view'));
 			Configuration::updateValue('PS_TC_ACTIVE', (int)Tools::getValue('live_conf'));
+			Configuration::updateValue('PS_GRID_PRODUCT', (int)Tools::getValue('grid_list'));
 			foreach ($this->getConfigurableModules() as $module)
 			{
 				if (!isset($module['is_module']) || !$module['is_module'] || !Validate::isModuleName($module['name']) || !Tools::isSubmit($module['name']))
@@ -741,6 +742,11 @@ class ThemeConfigurator extends Module
 				'label' => $this->l('Enable quick view'),
 				'name' => 'quick_view',
 				'value' => (int)Tools::getValue('PS_QUICK_VIEW', Configuration::get('PS_QUICK_VIEW'))
+			),
+			array(
+				'label' => $this->l('Display products categories in list'),
+				'name' => 'grid_list',
+				'value' => (int)Configuration::get('PS_GRID_PRODUCT')
 			),
 			array(
 				'label' => $this->l('Enable top banner'),
