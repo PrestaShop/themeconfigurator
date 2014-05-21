@@ -375,7 +375,6 @@ class ThemeConfigurator extends Module
 		if (!Validate::isCleanHtml($title, (int)Configuration::get('PS_ALLOW_HTML_IFRAME')) || !Validate::isCleanHtml($content, (int)Configuration::get('PS_ALLOW_HTML_IFRAME')))
 		{
 			$this->context->smarty->assign('error', $this->l('Invalid content'));
-
 			return false;
 		}
 
@@ -430,7 +429,7 @@ class ThemeConfigurator extends Module
 		if (is_array($image) && (ImageManager::validateUpload($image, $this->max_image_size) === false) && ($tmp_name = tempnam(_PS_TMP_IMG_DIR_, 'PS')) && move_uploaded_file($image['tmp_name'], $tmp_name))
 		{
 			$salt = sha1(microtime());
-			$img_name = $salt.'_'.$image['name'];
+			$img_name = $salt.'_'.Tools::str2url($image['name']);
 			if (ImageManager::resize($tmp_name, dirname(__FILE__).'/img/'.$img_name, $image_w, $image_h))
 				$res = true;
 		}
@@ -438,7 +437,6 @@ class ThemeConfigurator extends Module
 		if (!$res)
 		{
 			$this->context->smarty->assign('error', $this->l('An error occurred during the image upload.'));
-
 			return false;
 		}
 
