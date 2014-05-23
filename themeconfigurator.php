@@ -713,13 +713,13 @@ class ThemeConfigurator extends Module
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Display contact information'),
+				'label' => $this->l('Display your contact information'),
 				'name' => 'blockcontactinfos',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('blockcontactinfos')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Display social sharing buttons on the products page'),
+				'label' => $this->l('Display social sharing buttons on the product\'s page'),
 				'name' => 'socialsharing',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('socialsharing')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
@@ -731,38 +731,38 @@ class ThemeConfigurator extends Module
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Custom CMS information block'),
+				'label' => $this->l('Display the custom CMS information block'),
 				'name' => 'blockcmsinfo',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('blockcmsinfo')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Enable quick view'),
+				'label' => $this->l('Display quick view window on homepage and category pages'),
 				'name' => 'quick_view',
 				'value' => (int)Tools::getValue('PS_QUICK_VIEW', Configuration::get('PS_QUICK_VIEW'))
 			),
 			array(
-				'label' => $this->l('Display products categories in list'),
+				'label' => $this->l('Display product categories in a list'),
 				'name' => 'grid_list',
 				'value' => (int)Configuration::get('PS_GRID_PRODUCT')
 			),
 			array(
-				'label' => $this->l('Enable top banner'),
+				'label' => $this->l('Display top banner'),
 				'name' => 'blockbanner',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('blockbanner')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Display your product payment logos'),
+				'label' => $this->l('Display logos of available payment methods'),
 				'name' => 'productpaymentlogos',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('productpaymentlogos')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Enable Live Configurator'),
+				'label' => $this->l('Display Live Configurator'),
 				'name' => 'live_conf',
 				'value' => (int)Tools::getValue('PS_TC_ACTIVE', Configuration::get('PS_TC_ACTIVE')),
-				'hint' => $this->l('The customization tool allows you to make color and font changes in your theme.'),
+				'hint' => $this->l('This customization tool allows you to make color and font changes in your theme.'),
 				'desc' => $desc
 			)
 		);

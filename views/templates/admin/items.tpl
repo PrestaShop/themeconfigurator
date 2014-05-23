@@ -70,20 +70,20 @@
 									<div class="col-lg-9 col-lg-offset-3">
 										<div class="checkbox">
 											<label class="control-label">
-												{l s='Active' mod='themeconfigurator'}
+												{l s='Enable' mod='themeconfigurator'}
 												<input type="checkbox" name="item_active" value="1"{if $hItem.active == 1} checked="checked"{/if} />
 											</label>
 										</div>
 									</div>
 								</div>
 								<div class="title item-field form-group">
-									<label class="control-label col-lg-3">{l s='Title' mod='themeconfigurator'}</label>
+									<label class="control-label col-lg-3">{l s='Image title' mod='themeconfigurator'}</label>
 									<div class="col-lg-7">
 										<input type="text" name="item_title" value="{$hItem.title|escape:'htmlall':'UTF-8'}" />
 									</div>
 								</div>
 								<div class="hook item-field form-group">
-									<label class="control-label col-lg-3">{l s='Hook' mod='themeconfigurator'}</label>
+									<label class="control-label col-lg-3">{l s='Hook to which the image should be attached' mod='themeconfigurator'}</label>
 									<div class="col-lg-7">
 										<select name="item_hook" default="home" class="fixed-width-lg">
 											<option value="home"{if $hItem.hook == 'home'} selected="selected"{/if}>home</option>  
@@ -95,7 +95,7 @@
 									</div>
 								</div>
 								<div class="image item-field form-group">
-									<label class="control-label col-lg-3">{l s='Image' mod='themeconfigurator'}</label>
+									<label class="control-label col-lg-3">{l s='Load your image' mod='themeconfigurator'}</label>
 									<div class="col-lg-7">
 										<input type="file" name="item_img" />
 									</div>
@@ -104,8 +104,8 @@
 									<label class="control-label col-lg-3">{l s='Image width' mod='themeconfigurator'}</label>
 									<div class="col-lg-7">
 										<div class="input-group fixed-width-lg">
-											<span class="input-group-addon">{l s='px'}</span>
 											<input name="item_img_w" type="text" maxlength="4" size="4" value="{$hItem.image_w|escape:'htmlall':'UTF-8'}"/>
+											<span class="input-group-addon">{l s='pixels'}</span>
 										</div>
 									</div>
 								</div>
@@ -113,13 +113,13 @@
 									<label class="control-label col-lg-3">{l s='Image height' mod='themeconfigurator'}</label>
 									<div class="col-lg-7">
 										<div class="input-group fixed-width-lg">
-											<span class="input-group-addon">{l s='px'}</span>
 											<input name="item_img_h" type="text" maxlength="4" size="4" value="{$hItem.image_h|escape:'htmlall':'UTF-8'}"/>
+											<span class="input-group-addon">{l s='pixels'}</span>
 										</div>
 									</div>
 								</div>
 								<div class="url item-field form-group">
-									<label class="control-label col-lg-3">{l s='URL' mod='themeconfigurator'}</label>
+									<label class="control-label col-lg-3">{l s='Target link' mod='themeconfigurator'}</label>
 									<div class="col-lg-7">
 										<input type="text" name="item_url" value="{$hItem.url|escape:'htmlall':'UTF-8'}" />
 									</div>
@@ -128,14 +128,14 @@
 									<div class="col-lg-9 col-lg-offset-3">
 										<div class="checkbox">
 											<label class="control-label">
-												{l s='Target blank' mod='themeconfigurator'}
+												{l s='Open link in a new tab/page' mod='themeconfigurator'}
 												<input type="checkbox" name="item_target" value="1"{if $hItem.target == 1} checked="checked"{/if} />
 											</label>
 										</div>
 									</div>
 								</div>
 								<div class="html item-field form-group">
-									<label class="control-label col-lg-3">{l s='HTML' mod='themeconfigurator'}</label>
+									<label class="control-label col-lg-3">{l s='Optional HTML code' mod='themeconfigurator'}</label>
 									<div class="col-lg-7">
 										<textarea name="item_html" cols="65" rows="12">{$hItem.html|escape:'htmlall':'UTF-8'}</textarea>
 									</div>
