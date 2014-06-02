@@ -37,7 +37,7 @@ class ThemeConfigurator extends Module
 	{
 		$this->name = 'themeconfigurator';
 		$this->tab = 'front_office_features';
-		$this->version = '0.10';
+		$this->version = '1.1.0';
 		$this->bootstrap = true;
 		$this->secure_key = Tools::encrypt($this->name);
 		$this->default_language = Language::getLanguage(Configuration::get('PS_LANG_DEFAULT'));
@@ -375,7 +375,6 @@ class ThemeConfigurator extends Module
 		if (!Validate::isCleanHtml($title, (int)Configuration::get('PS_ALLOW_HTML_IFRAME')) || !Validate::isCleanHtml($content, (int)Configuration::get('PS_ALLOW_HTML_IFRAME')))
 		{
 			$this->context->smarty->assign('error', $this->l('Invalid content'));
-
 			return false;
 		}
 
@@ -430,7 +429,7 @@ class ThemeConfigurator extends Module
 		if (is_array($image) && (ImageManager::validateUpload($image, $this->max_image_size) === false) && ($tmp_name = tempnam(_PS_TMP_IMG_DIR_, 'PS')) && move_uploaded_file($image['tmp_name'], $tmp_name))
 		{
 			$salt = sha1(microtime());
-			$img_name = $salt.'_'.$image['name'];
+			$img_name = $salt.'_'.Tools::str2url($image['name']);
 			if (ImageManager::resize($tmp_name, dirname(__FILE__).'/img/'.$img_name, $image_w, $image_h))
 				$res = true;
 		}
@@ -438,7 +437,6 @@ class ThemeConfigurator extends Module
 		if (!$res)
 		{
 			$this->context->smarty->assign('error', $this->l('An error occurred during the image upload.'));
-
 			return false;
 		}
 
@@ -451,6 +449,7 @@ class ThemeConfigurator extends Module
 		{
 			Configuration::updateValue('PS_QUICK_VIEW', (int)Tools::getValue('quick_view'));
 			Configuration::updateValue('PS_TC_ACTIVE', (int)Tools::getValue('live_conf'));
+			Configuration::updateValue('PS_GRID_PRODUCT', (int)Tools::getValue('grid_list'));
 			foreach ($this->getConfigurableModules() as $module)
 			{
 				if (!isset($module['is_module']) || !$module['is_module'] || !Validate::isModuleName($module['name']) || !Tools::isSubmit($module['name']))
@@ -714,13 +713,13 @@ class ThemeConfigurator extends Module
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Display contact information'),
+				'label' => $this->l('Display your contact information'),
 				'name' => 'blockcontactinfos',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('blockcontactinfos')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Display social sharing buttons on the products page'),
+				'label' => $this->l('Display social sharing buttons on the product\'s page'),
 				'name' => 'socialsharing',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('socialsharing')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
@@ -732,33 +731,38 @@ class ThemeConfigurator extends Module
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Custom CMS information block'),
+				'label' => $this->l('Display the custom CMS information block'),
 				'name' => 'blockcmsinfo',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('blockcmsinfo')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Enable quick view'),
+				'label' => $this->l('Display quick view window on homepage and category pages'),
 				'name' => 'quick_view',
 				'value' => (int)Tools::getValue('PS_QUICK_VIEW', Configuration::get('PS_QUICK_VIEW'))
 			),
 			array(
-				'label' => $this->l('Enable top banner'),
+				'label' => $this->l('Display product categories in a list'),
+				'name' => 'grid_list',
+				'value' => (int)Configuration::get('PS_GRID_PRODUCT')
+			),
+			array(
+				'label' => $this->l('Display top banner'),
 				'name' => 'blockbanner',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('blockbanner')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Display your product payment logos'),
+				'label' => $this->l('Display logos of available payment methods'),
 				'name' => 'productpaymentlogos',
 				'value' => (int)Validate::isLoadedObject($module = Module::getInstanceByName('productpaymentlogos')) && $module->isEnabledForShopContext(),
 				'is_module' => true,
 			),
 			array(
-				'label' => $this->l('Enable Live Configurator'),
+				'label' => $this->l('Display Live Configurator'),
 				'name' => 'live_conf',
 				'value' => (int)Tools::getValue('PS_TC_ACTIVE', Configuration::get('PS_TC_ACTIVE')),
-				'hint' => $this->l('The customization tool allows you to make color and font changes in your theme.'),
+				'hint' => $this->l('This customization tool allows you to make color and font changes in your theme.'),
 				'desc' => $desc
 			)
 		);
