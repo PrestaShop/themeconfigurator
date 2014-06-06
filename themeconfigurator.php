@@ -407,8 +407,7 @@ class ThemeConfigurator extends Module
 					active = '.(int)Tools::getValue('item_active').',
 					html = \''.pSQL($content, true).'\'
 			WHERE id_item = '.(int)Tools::getValue('item_id')
-		)
-		)
+		))
 		{
 			if ($image = Db::getInstance()->getValue('SELECT image FROM `'._DB_PREFIX_.'themeconfigurator` WHERE id_item = '.(int)Tools::getValue('item_id')))
 				$this->deleteImage($image);
@@ -429,7 +428,9 @@ class ThemeConfigurator extends Module
 		if (is_array($image) && (ImageManager::validateUpload($image, $this->max_image_size) === false) && ($tmp_name = tempnam(_PS_TMP_IMG_DIR_, 'PS')) && move_uploaded_file($image['tmp_name'], $tmp_name))
 		{
 			$salt = sha1(microtime());
-			$img_name = $salt.'_'.Tools::str2url($image['name']);
+			$pathinfo = pathinfo($image['name']);
+			$img_name = $salt.'_'.Tools::str2url($pathinfo['filename']).'.'.$pathinfo['extension'];
+
 			if (ImageManager::resize($tmp_name, dirname(__FILE__).'/img/'.$img_name, $image_w, $image_h))
 				$res = true;
 		}
