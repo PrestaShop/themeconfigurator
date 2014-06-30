@@ -94,7 +94,8 @@ class ThemeConfigurator extends Module
 			!Configuration::updateValue('PS_TC_FONTS', serialize($themes_fonts)) ||
 			!Configuration::updateValue('PS_TC_THEME', '') ||
 			!Configuration::updateValue('PS_TC_FONT', '') ||
-			!Configuration::updateValue('PS_TC_ACTIVE', 1)
+			!Configuration::updateValue('PS_TC_ACTIVE', 1) ||
+			!Configuration::updateValue('PS_SET_DISPLAY_SUBCATEGORIES', 1)
 		)
 			return false;
 
@@ -238,8 +239,12 @@ class ThemeConfigurator extends Module
 
 	public function hookdisplayTop()
 	{
+		$this->context->smarty->assign(array(
+			'display_subcategories' => (int)Configuration::get('PS_SET_DISPLAY_SUBCATEGORIES'),
+		));
+
 		if (!isset($this->context->controller->php_self) || $this->context->controller->php_self != 'index')
-			return;
+			return $this->display(__FILE__, 'hook.tpl');
 		$this->context->smarty->assign(array(
 			'htmlitems' => $this->getItemsFromHook('top'),
 			'hook' => 'top'
@@ -453,6 +458,7 @@ class ThemeConfigurator extends Module
 			Configuration::updateValue('PS_QUICK_VIEW', (int)Tools::getValue('quick_view'));
 			Configuration::updateValue('PS_TC_ACTIVE', (int)Tools::getValue('live_conf'));
 			Configuration::updateValue('PS_GRID_PRODUCT', (int)Tools::getValue('grid_list'));
+			Configuration::updateValue('PS_SET_DISPLAY_SUBCATEGORIES', (int)Tools::getValue('sub_cat'));
 			foreach ($this->getConfigurableModules() as $module)
 			{
 				if (!isset($module['is_module']) || !$module['is_module'] || !Validate::isModuleName($module['name']) || !Tools::isSubmit($module['name']))
@@ -767,6 +773,11 @@ class ThemeConfigurator extends Module
 				'value' => (int)Tools::getValue('PS_TC_ACTIVE', Configuration::get('PS_TC_ACTIVE')),
 				'hint' => $this->l('This customization tool allows you to make color and font changes in your theme.'),
 				'desc' => $desc
+			),
+			array(
+				'label' => $this->l('Display subcategories'),
+				'name' => 'sub_cat',
+				'value' => (int)Tools::getValue('PS_SET_DISPLAY_SUBCATEGORIES', Configuration::get('PS_SET_DISPLAY_SUBCATEGORIES')),
 			)
 		);
 	}
