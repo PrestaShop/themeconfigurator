@@ -225,6 +225,15 @@ class ThemeConfigurator extends Module
 			if (Configuration::get('PS_TC_FONT') != '')
 				$this->context->controller->addCss($this->_path.'css/'.Configuration::get('PS_TC_FONT').'.css', 'all');
 		}
+
+		if (isset($this->context->controller->php_self) && $this->context->controller->php_self == 'category')
+		{
+			$this->context->smarty->assign(array(
+				'display_subcategories' => (int)Configuration::get('PS_SET_DISPLAY_SUBCATEGORIES')
+			));
+
+			return $this->display(__FILE__, 'hook.tpl');
+		}
 	}
 	
 	public function hookActionObjectLanguageAddAfter($params)
@@ -239,12 +248,8 @@ class ThemeConfigurator extends Module
 
 	public function hookdisplayTop()
 	{
-		$this->context->smarty->assign(array(
-			'display_subcategories' => (int)Configuration::get('PS_SET_DISPLAY_SUBCATEGORIES'),
-		));
-
 		if (!isset($this->context->controller->php_self) || $this->context->controller->php_self != 'index')
-			return $this->display(__FILE__, 'hook.tpl');
+			return ;
 		$this->context->smarty->assign(array(
 			'htmlitems' => $this->getItemsFromHook('top'),
 			'hook' => 'top'
