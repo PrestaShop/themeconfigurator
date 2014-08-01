@@ -315,7 +315,7 @@ class ThemeConfigurator extends Module
 					Tools::getValue('id_employee'),
 				'advertisement_image' => $ad_image,
 				'advertisement_url' => 'http://addons.prestashop.com/en/205-premium-templates?utm_source=backoffice_configurator',
-				'advertisement_text' => $this->l('Over 500+ PrestaShop premium templates! Browse now!')
+				'advertisement_text' => $this->l('Over 800 PrestaShop premium templates! Browse now!')
 			));
 
 			$html .= $this->display(__FILE__, 'live_configurator.tpl');
@@ -756,9 +756,10 @@ class ThemeConfigurator extends Module
 				'value' => (int)Tools::getValue('PS_QUICK_VIEW', Configuration::get('PS_QUICK_VIEW'))
 			),
 			array(
-				'label' => $this->l('Display product categories in a list'),
+				'label' => $this->l('Display categories as a list of products instead of the default grid-based display'),
 				'name' => 'grid_list',
-				'value' => (int)Configuration::get('PS_GRID_PRODUCT')
+				'value' => (int)Configuration::get('PS_GRID_PRODUCT'),
+				'desc' => 'Works only for first-time users. This setting is overridden by the user\'s choice as soon as the user cookie is set.'
 			),
 			array(
 				'label' => $this->l('Display top banner'),
