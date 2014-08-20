@@ -145,8 +145,7 @@
 										<button type="button" class="btn btn-default button-item-edit-cancel" >
 											<i class="icon-remove"></i> {l s='Cancel' mod='themeconfigurator'}
 										</button>
-										<input type="hidden" name="updateItem" value="" />
-										<button type="submit" value="updateItem" class="btn btn-success button-save pull-right" onClick="this.form.submit();">
+										<button type="submit" name="updateItem" class="btn btn-success button-save pull-right" >
 											<i class="icon-save"></i> {l s='Save' mod='themeconfigurator'}
 										</button>
 									</div>

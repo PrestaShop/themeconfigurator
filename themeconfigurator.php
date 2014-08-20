@@ -37,7 +37,7 @@ class ThemeConfigurator extends Module
 	{
 		$this->name = 'themeconfigurator';
 		$this->tab = 'front_office_features';
-		$this->version = '1.1.0';
+		$this->version = '1.1.1';
 		$this->bootstrap = true;
 		$this->secure_key = Tools::encrypt($this->name);
 		$this->default_language = Language::getLanguage(Configuration::get('PS_LANG_DEFAULT'));
@@ -507,10 +507,11 @@ class ThemeConfigurator extends Module
 	{
 		$title = Tools::getValue('item_title');
 		$content = Tools::getValue('item_html');
-		if (!Validate::isCleanHtml($title, (int)Configuration::get('PS_ALLOW_HTML_IFRAME')) || !Validate::isCleanHtml($content, (int)Configuration::get('PS_ALLOW_HTML_IFRAME')))
+
+		if (!Validate::isCleanHtml($title, (int)Configuration::get('PS_ALLOW_HTML_IFRAME'))
+			|| !Validate::isCleanHtml($content, (int)Configuration::get('PS_ALLOW_HTML_IFRAME')))
 		{
 			$this->context->smarty->assign('error', $this->l('Invalid content'));
-
 			return false;
 		}
 
@@ -518,12 +519,11 @@ class ThemeConfigurator extends Module
 			SELECT item_order + 1
 			FROM `'._DB_PREFIX_.'themeconfigurator` 
 			WHERE 
-					id_shop = '.(int)$this->context->shop->id.' 
-					AND id_lang = '.(int)Tools::getValue('id_lang').'
-					AND hook = \''.pSQL(Tools::getValue('item_hook')).'\' 
-					ORDER BY item_order DESC'
-		)
-		)
+				id_shop = '.(int)$this->context->shop->id.' 
+				AND id_lang = '.(int)Tools::getValue('id_lang').'
+				AND hook = \''.pSQL(Tools::getValue('item_hook')).'\' 
+				ORDER BY item_order DESC'
+		))
 			$current_order = 1;
 
 		$image_w = is_numeric(Tools::getValue('item_img_w')) ? (int)Tools::getValue('item_img_w') : '';
@@ -557,29 +557,28 @@ class ThemeConfigurator extends Module
 					\''.pSQL($image_w).'\',
 					\''.pSQL($image_h).'\',
 					\''.pSQL($content, true).'\',
-					1)
-			')
-		)
+					1)'
+		))
 		{
 			if (!Tools::isEmpty($image))
 				$this->deleteImage($image);
 
 			$this->context->smarty->assign('error', $this->l('An error occurred while saving data.'));
-
 			return false;
 		}
 
 		$this->context->smarty->assign('confirmation', $this->l('New item successfully added.'));
-
 		return true;
 	}
 
 	public function renderConfigurationForm()
 	{
 		$inputs = array();
+
 		foreach ($this->getConfigurableModules() as $module)
 		{
 			$desc = '';
+
 			if (isset($module['is_module']) && $module['is_module'])
 			{
 				$module_instance = Module::getInstanceByName($module['name']);
