@@ -50,7 +50,7 @@
 					</div>
 				</div>
 				<div class="title item-field form-group">
-					<label class="control-label col-lg-3 ">{l s='Title' mod='themeconfigurator'}</label>
+					<label class="control-label col-lg-3 ">{l s='Image title' mod='themeconfigurator'}</label>
 					<div class="col-lg-7">
 						<input class="form-control" type="text" name="item_title"/>
 					</div>
