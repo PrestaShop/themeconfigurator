@@ -87,6 +87,15 @@ $(function() {
 				action: 'updateposition',
 				item: test,
 				title: h4_title,
+			},
+			success: function(msg)
+			{
+				if (msg.error)
+				{
+					showErrorMessage(msg.error);
+					return;
+				}
+				showSuccessMessage(msg.success);
 			}
 		});
 	 });
