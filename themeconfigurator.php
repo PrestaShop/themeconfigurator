@@ -53,6 +53,28 @@ class ThemeConfigurator extends Module
 		$this->hooks_tpl_path = _PS_MODULE_DIR_.$this->name.'/views/templates/hooks/';
 	}
 
+	private function _createAjaxController()
+	{
+		$tab = new Tab();
+		$tab->active = 1;
+		foreach (Language::getLanguages(false) as $language)
+			$tab->name[$language['id_lang']] = 'themeconfigurator';
+		$tab->class_name = 'AdminThemeConfigurator';
+		$tab->module = $this->name;
+		$tab->id_parent = - 1;
+		return (bool)$tab->add();
+	}
+
+	private function _removeAjaxContoller()
+	{
+		if ($tab_id = (int)Tab::getIdFromClassName('AdminThemeConfigurator'))
+		{
+			$tab = new Tab($tab_id);
+			$tab->delete();
+		}
+		return true;
+	}
+
 	public function install()
 	{
 		$themes_colors = array(
@@ -95,7 +117,8 @@ class ThemeConfigurator extends Module
 			!Configuration::updateValue('PS_TC_THEME', '') ||
 			!Configuration::updateValue('PS_TC_FONT', '') ||
 			!Configuration::updateValue('PS_TC_ACTIVE', 1) ||
-			!Configuration::updateValue('PS_SET_DISPLAY_SUBCATEGORIES', 1)
+			!Configuration::updateValue('PS_SET_DISPLAY_SUBCATEGORIES', 1) ||
+			!$this->_createAjaxController()
 		)
 			return false;
 
@@ -137,9 +160,9 @@ class ThemeConfigurator extends Module
 		$height = (isset($sizes[1]) && $sizes[1])? (int)$sizes[1] : 0;
 
 		$result &= Db::getInstance()->Execute('
-			INSERT INTO `'._DB_PREFIX_.'themeconfigurator` ( 
+			INSERT INTO `'._DB_PREFIX_.'themeconfigurator` (
 					`id_shop`, `id_lang`, `item_order`, `title`, `title_use`, `hook`, `url`, `target`, `image`, `image_w`, `image_h`, `html`, `active`
-			) VALUES ( 
+			) VALUES (
 				\''.(int)$id_shop.'\',
 				\''.(int)$id_lang.'\',
 				\''.(int)$id_image.'\',
@@ -164,7 +187,7 @@ class ThemeConfigurator extends Module
 
 		if ($languages === null)
 			$languages = Language::getLanguages(true);
-		
+
 		foreach ($languages as $language)
 		{
 			for ($i = 1; $i < 6; $i++)
@@ -176,8 +199,8 @@ class ThemeConfigurator extends Module
 
 		return $result;
 	}
-	
-	
+
+
 	public function uninstall()
 	{
 		$images = array();
@@ -186,7 +209,7 @@ class ThemeConfigurator extends Module
 		foreach ($images as $image)
 			$this->deleteImage($image['image']);
 
-		if (!Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'themeconfigurator`') || !parent::uninstall())
+		if (!Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'themeconfigurator`') || !$this->_removeAjaxContoller() || !parent::uninstall())
 			return false;
 
 		return true;
@@ -235,7 +258,7 @@ class ThemeConfigurator extends Module
 			return $this->display(__FILE__, 'hook.tpl');
 		}
 	}
-	
+
 	public function hookActionObjectLanguageAddAfter($params)
 	{
 		return $this->installFixtures(array(array('id_lang' => (int)$params['object']->id)));
@@ -365,10 +388,10 @@ class ThemeConfigurator extends Module
 		if (Db::getInstance()->Affected_Rows() == 1)
 		{
 			Db::getInstance()->execute('
-				UPDATE `'._DB_PREFIX_.'themeconfigurator` 
-				SET item_order = item_order-1 
+				UPDATE `'._DB_PREFIX_.'themeconfigurator`
+				SET item_order = item_order-1
 				WHERE (
-					item_order > '.(int)Tools::getValue('item_order').' AND 
+					item_order > '.(int)Tools::getValue('item_order').' AND
 					id_shop = '.(int)$this->context->shop->id.' AND
 					hook = \''.pSQL(Tools::getValue('item_hook')).'\')'
 			);
@@ -407,7 +430,7 @@ class ThemeConfigurator extends Module
 		}
 
 		if (!Db::getInstance()->execute('
-			UPDATE `'._DB_PREFIX_.'themeconfigurator` SET 
+			UPDATE `'._DB_PREFIX_.'themeconfigurator` SET
 					title = \''.pSQL($title).'\',
 					title_use = '.(int)Tools::getValue('item_title_use').',
 					hook = \''.pSQL(Tools::getValue('item_hook')).'\',
@@ -517,11 +540,11 @@ class ThemeConfigurator extends Module
 
 		if (!$current_order = (int)Db::getInstance()->getValue('
 			SELECT item_order + 1
-			FROM `'._DB_PREFIX_.'themeconfigurator` 
-			WHERE 
-				id_shop = '.(int)$this->context->shop->id.' 
+			FROM `'._DB_PREFIX_.'themeconfigurator`
+			WHERE
+				id_shop = '.(int)$this->context->shop->id.'
 				AND id_lang = '.(int)Tools::getValue('id_lang').'
-				AND hook = \''.pSQL(Tools::getValue('item_hook')).'\' 
+				AND hook = \''.pSQL(Tools::getValue('item_hook')).'\'
 				ORDER BY item_order DESC'
 		))
 			$current_order = 1;
@@ -542,9 +565,9 @@ class ThemeConfigurator extends Module
 		}
 
 		if (!Db::getInstance()->Execute('
-			INSERT INTO `'._DB_PREFIX_.'themeconfigurator` ( 
+			INSERT INTO `'._DB_PREFIX_.'themeconfigurator` (
 					`id_shop`, `id_lang`, `item_order`, `title`, `title_use`, `hook`, `url`, `target`, `image`, `image_w`, `image_h`, `html`, `active`
-			) VALUES ( 
+			) VALUES (
 					\''.(int)$this->context->shop->id.'\',
 					\''.(int)Tools::getValue('id_lang').'\',
 					\''.(int)$current_order.'\',
@@ -674,16 +697,17 @@ class ThemeConfigurator extends Module
 
 			foreach ($hooks[$language['id_lang']] as $hook)
 				$items[$language['id_lang']][$hook] = Db::getInstance()->ExecuteS('
-					SELECT * FROM `'._DB_PREFIX_.'themeconfigurator` 
-					WHERE id_shop = '.(int)$id_shop.' 
-					AND id_lang = '.(int)$language['id_lang'].' 
-					AND hook = \''.pSQL($hook).'\' 
+					SELECT * FROM `'._DB_PREFIX_.'themeconfigurator`
+					WHERE id_shop = '.(int)$id_shop.'
+					AND id_lang = '.(int)$language['id_lang'].'
+					AND hook = \''.pSQL($hook).'\'
 					ORDER BY item_order ASC'
 				);
 		}
 
 		$this->context->smarty->assign('htmlitems', array(
 			'items' => $items,
+			'theme_url' => $this->context->link->getAdminLink('AdminThemeConfigurator'),
 			'lang' => array(
 				'default' => $this->default_language,
 				'all' => $this->languages,
@@ -694,6 +718,7 @@ class ThemeConfigurator extends Module
 			'id_shop' => $id_shop
 		));
 
+		$this->context->controller->addJqueryUI('ui.sortable');
 		return $this->display(__FILE__, 'views/templates/admin/admin.tpl');
 	}
 
