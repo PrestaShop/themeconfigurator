@@ -53,7 +53,7 @@ class ThemeConfigurator extends Module
 		$this->hooks_tpl_path = _PS_MODULE_DIR_.$this->name.'/views/templates/hooks/';
 	}
 
-	private function _createAjaxController()
+	public function createAjaxController()
 	{
 		$tab = new Tab();
 		$tab->active = 1;
@@ -118,7 +118,7 @@ class ThemeConfigurator extends Module
 			!Configuration::updateValue('PS_TC_FONT', '') ||
 			!Configuration::updateValue('PS_TC_ACTIVE', 1) ||
 			!Configuration::updateValue('PS_SET_DISPLAY_SUBCATEGORIES', 1) ||
-			!$this->_createAjaxController()
+			!$this->createAjaxController()
 		)
 			return false;
 
