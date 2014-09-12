@@ -38,9 +38,8 @@ $(document).ready(
 				+ '&theme_font=' + get('theme_font');
 
 			var baseDir_ = baseDir.replace('https', 'http');
-			var tmp = href.replace('https', 'http').substr(0, baseDir_.length);
-			
-			if (typeof(href) != 'undefined' && href.substr(0, 1) != '#' && tmp == baseDir_)
+
+			if (typeof(href) != 'undefined' && href.substr(0, 1) != '#' && href.replace('https', 'http').substr(0, baseDir_.length) == baseDir_)
 			{
 				if (search.length == 0)
 					this.search = href_add;

@@ -57,8 +57,10 @@ class ThemeConfigurator extends Module
 	{
 		$tab = new Tab();
 		$tab->active = 1;
-		foreach (Language::getLanguages(false) as $language)
-			$tab->name[$language['id_lang']] = 'themeconfigurator';
+		$languages = Language::getLanguages(false);
+		if (is_array($languages))
+			foreach ($languages as $language)
+				$tab->name[$language['id_lang']] = 'themeconfigurator';
 		$tab->class_name = 'AdminThemeConfigurator';
 		$tab->module = $this->name;
 		$tab->id_parent = - 1;

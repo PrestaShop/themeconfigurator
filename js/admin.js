@@ -87,11 +87,7 @@ $(function() {
 				action: 'updateposition',
 				item: test,
 				title: h4_title,
-			},
-			success: function (data)
-			{
 			}
 		});
 	 });
-	 $("#items" ).disableSelection();
  });
