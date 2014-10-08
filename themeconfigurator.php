@@ -137,9 +137,9 @@ class ThemeConfigurator extends Module
 		$height = (isset($sizes[1]) && $sizes[1])? (int)$sizes[1] : 0;
 
 		$result &= Db::getInstance()->Execute('
-			INSERT INTO `'._DB_PREFIX_.'themeconfigurator` ( 
+			INSERT INTO `'._DB_PREFIX_.'themeconfigurator` (
 					`id_shop`, `id_lang`, `item_order`, `title`, `title_use`, `hook`, `url`, `target`, `image`, `image_w`, `image_h`, `html`, `active`
-			) VALUES ( 
+			) VALUES (
 				\''.(int)$id_shop.'\',
 				\''.(int)$id_lang.'\',
 				\''.(int)$id_image.'\',
@@ -164,7 +164,7 @@ class ThemeConfigurator extends Module
 
 		if ($languages === null)
 			$languages = Language::getLanguages(true);
-		
+
 		foreach ($languages as $language)
 		{
 			for ($i = 1; $i < 6; $i++)
@@ -176,8 +176,8 @@ class ThemeConfigurator extends Module
 
 		return $result;
 	}
-	
-	
+
+
 	public function uninstall()
 	{
 		$images = array();
@@ -235,7 +235,7 @@ class ThemeConfigurator extends Module
 			return $this->display(__FILE__, 'hook.tpl');
 		}
 	}
-	
+
 	public function hookActionObjectLanguageAddAfter($params)
 	{
 		return $this->installFixtures(array(array('id_lang' => (int)$params['object']->id)));
@@ -314,7 +314,10 @@ class ThemeConfigurator extends Module
 				'id_employee' => is_object($this->context->employee) ? (int)$this->context->employee->id :
 					Tools::getValue('id_employee'),
 				'advertisement_image' => $ad_image,
-				'advertisement_url' => 'http://addons.prestashop.com/en/205-premium-templates?utm_source=backoffice_configurator',
+				'advertisement_url' => 'http://addons.prestashop.com/en/205-premium-templates?utm_source=back-office'
+					.'&utm_medium=theme-configurator'
+					.'&utm_campaign=back-office-'.Tools::strtoupper($this->context->language->iso_code)
+					.'&utm_content='.(defined('_PS_HOST_MODE_') ? 'ondemand' : 'download'),
 				'advertisement_text' => $this->l('Over 800 PrestaShop premium templates! Browse now!')
 			));
 
@@ -365,10 +368,10 @@ class ThemeConfigurator extends Module
 		if (Db::getInstance()->Affected_Rows() == 1)
 		{
 			Db::getInstance()->execute('
-				UPDATE `'._DB_PREFIX_.'themeconfigurator` 
-				SET item_order = item_order-1 
+				UPDATE `'._DB_PREFIX_.'themeconfigurator`
+				SET item_order = item_order-1
 				WHERE (
-					item_order > '.(int)Tools::getValue('item_order').' AND 
+					item_order > '.(int)Tools::getValue('item_order').' AND
 					id_shop = '.(int)$this->context->shop->id.' AND
 					hook = \''.pSQL(Tools::getValue('item_hook')).'\')'
 			);
@@ -407,7 +410,7 @@ class ThemeConfigurator extends Module
 		}
 
 		if (!Db::getInstance()->execute('
-			UPDATE `'._DB_PREFIX_.'themeconfigurator` SET 
+			UPDATE `'._DB_PREFIX_.'themeconfigurator` SET
 					title = \''.pSQL($title).'\',
 					title_use = '.(int)Tools::getValue('item_title_use').',
 					hook = \''.pSQL(Tools::getValue('item_hook')).'\',
@@ -517,11 +520,11 @@ class ThemeConfigurator extends Module
 
 		if (!$current_order = (int)Db::getInstance()->getValue('
 			SELECT item_order + 1
-			FROM `'._DB_PREFIX_.'themeconfigurator` 
-			WHERE 
-				id_shop = '.(int)$this->context->shop->id.' 
+			FROM `'._DB_PREFIX_.'themeconfigurator`
+			WHERE
+				id_shop = '.(int)$this->context->shop->id.'
 				AND id_lang = '.(int)Tools::getValue('id_lang').'
-				AND hook = \''.pSQL(Tools::getValue('item_hook')).'\' 
+				AND hook = \''.pSQL(Tools::getValue('item_hook')).'\'
 				ORDER BY item_order DESC'
 		))
 			$current_order = 1;
@@ -542,9 +545,9 @@ class ThemeConfigurator extends Module
 		}
 
 		if (!Db::getInstance()->Execute('
-			INSERT INTO `'._DB_PREFIX_.'themeconfigurator` ( 
+			INSERT INTO `'._DB_PREFIX_.'themeconfigurator` (
 					`id_shop`, `id_lang`, `item_order`, `title`, `title_use`, `hook`, `url`, `target`, `image`, `image_w`, `image_h`, `html`, `active`
-			) VALUES ( 
+			) VALUES (
 					\''.(int)$this->context->shop->id.'\',
 					\''.(int)Tools::getValue('id_lang').'\',
 					\''.(int)$current_order.'\',
@@ -674,10 +677,10 @@ class ThemeConfigurator extends Module
 
 			foreach ($hooks[$language['id_lang']] as $hook)
 				$items[$language['id_lang']][$hook] = Db::getInstance()->ExecuteS('
-					SELECT * FROM `'._DB_PREFIX_.'themeconfigurator` 
-					WHERE id_shop = '.(int)$id_shop.' 
-					AND id_lang = '.(int)$language['id_lang'].' 
-					AND hook = \''.pSQL($hook).'\' 
+					SELECT * FROM `'._DB_PREFIX_.'themeconfigurator`
+					WHERE id_shop = '.(int)$id_shop.'
+					AND id_lang = '.(int)$language['id_lang'].'
+					AND hook = \''.pSQL($hook).'\'
 					ORDER BY item_order ASC'
 				);
 		}
