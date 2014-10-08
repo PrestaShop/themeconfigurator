@@ -37,7 +37,7 @@ class ThemeConfigurator extends Module
 	{
 		$this->name = 'themeconfigurator';
 		$this->tab = 'front_office_features';
-		$this->version = '1.1.2';
+		$this->version = '1.1.4';
 		$this->bootstrap = true;
 		$this->secure_key = Tools::encrypt($this->name);
 		$this->default_language = Language::getLanguage(Configuration::get('PS_LANG_DEFAULT'));
@@ -51,6 +51,30 @@ class ThemeConfigurator extends Module
 		$this->uploads_path = _PS_MODULE_DIR_.$this->name.'/img/';
 		$this->admin_tpl_path = _PS_MODULE_DIR_.$this->name.'/views/templates/admin/';
 		$this->hooks_tpl_path = _PS_MODULE_DIR_.$this->name.'/views/templates/hooks/';
+	}
+
+	public function createAjaxController()
+	{
+		$tab = new Tab();
+		$tab->active = 1;
+		$languages = Language::getLanguages(false);
+		if (is_array($languages))
+			foreach ($languages as $language)
+				$tab->name[$language['id_lang']] = 'themeconfigurator';
+		$tab->class_name = 'AdminThemeConfigurator';
+		$tab->module = $this->name;
+		$tab->id_parent = - 1;
+		return (bool)$tab->add();
+	}
+
+	private function _removeAjaxContoller()
+	{
+		if ($tab_id = (int)Tab::getIdFromClassName('AdminThemeConfigurator'))
+		{
+			$tab = new Tab($tab_id);
+			$tab->delete();
+		}
+		return true;
 	}
 
 	public function install()
@@ -95,7 +119,8 @@ class ThemeConfigurator extends Module
 			!Configuration::updateValue('PS_TC_THEME', '') ||
 			!Configuration::updateValue('PS_TC_FONT', '') ||
 			!Configuration::updateValue('PS_TC_ACTIVE', 1) ||
-			!Configuration::updateValue('PS_SET_DISPLAY_SUBCATEGORIES', 1)
+			!Configuration::updateValue('PS_SET_DISPLAY_SUBCATEGORIES', 1) ||
+			!$this->createAjaxController()
 		)
 			return false;
 
@@ -186,7 +211,7 @@ class ThemeConfigurator extends Module
 		foreach ($images as $image)
 			$this->deleteImage($image['image']);
 
-		if (!Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'themeconfigurator`') || !parent::uninstall())
+		if (!Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'themeconfigurator`') || !$this->_removeAjaxContoller() || !parent::uninstall())
 			return false;
 
 		return true;
@@ -687,6 +712,7 @@ class ThemeConfigurator extends Module
 
 		$this->context->smarty->assign('htmlitems', array(
 			'items' => $items,
+			'theme_url' => $this->context->link->getAdminLink('AdminThemeConfigurator'),
 			'lang' => array(
 				'default' => $this->default_language,
 				'all' => $this->languages,
@@ -697,6 +723,7 @@ class ThemeConfigurator extends Module
 			'id_shop' => $id_shop
 		));
 
+		$this->context->controller->addJqueryUI('ui.sortable');
 		return $this->display(__FILE__, 'views/templates/admin/admin.tpl');
 	}
 
