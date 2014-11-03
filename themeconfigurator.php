@@ -331,8 +331,8 @@ class ThemeConfigurator extends Module
 				$ad_image = $this->_path.'img/en/advertisement.png';
 
 			$this->smarty->assign(array(
-				'themes' => unserialize(Configuration::get('PS_TC_THEMES')),
-				'fonts' => unserialize(Configuration::get('PS_TC_FONTS')),
+				'themes' => Tools::unserialize(Configuration::get('PS_TC_THEMES')),
+				'fonts' => Tools::unserialize(Configuration::get('PS_TC_FONTS')),
 				'theme_font' => Tools::getValue('theme_font', Configuration::get('PS_TC_FONT')),
 				'live_configurator_token' => $this->getLiveConfiguratorToken(),
 				'id_shop' => (int)$this->context->shop->id,
