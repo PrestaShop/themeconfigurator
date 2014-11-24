@@ -445,7 +445,7 @@ class ThemeConfigurator extends Module
 					image_w = '.(int)$image_w.',
 					image_h = '.(int)$image_h.',
 					active = '.(int)Tools::getValue('item_active').',
-					html = \''.pSQL(Tools::purify($content), true).'\'
+					html = \''.pSQL(Tools::purifyHTML($content), true).'\'
 			WHERE id_item = '.(int)Tools::getValue('item_id')
 		))
 		{
@@ -584,7 +584,7 @@ class ThemeConfigurator extends Module
 					\''.pSQL($image).'\',
 					\''.pSQL($image_w).'\',
 					\''.pSQL($image_h).'\',
-					\''.pSQL(Tools::purify($content), true).'\',
+					\''.pSQL(Tools::purifyHTML($content), true).'\',
 					1)'
 		))
 		{
