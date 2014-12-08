@@ -733,7 +733,7 @@ class ThemeConfigurator extends Module
 		if ($this->context->shop->getBaseURL())
 		{
 			$request =
-			'?live_configurator_token='.$this->getLiveConfiguratorToken()
+			'live_configurator_token='.$this->getLiveConfiguratorToken()
 			.'&id_employee='.(int)$this->context->employee->id
 			.'&id_shop='.(int)$this->context->shop->id
 			.(Configuration::get('PS_TC_THEME') != '' ? '&theme='.Configuration::get('PS_TC_THEME') : '')
