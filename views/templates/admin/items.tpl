@@ -29,7 +29,7 @@
 <ul class="nav nav-tabs">
 	{foreach from=$htmlitems.lang.all item=lang}
 		<li id="lang-{$lang.id_lang|escape:'htmlall':'UTF-8'}" class="lang-flag{if $lang.id_lang == $htmlitems.lang.default.id_lang} active{/if}">
-			<a href="#items-{$lang.id_lang|escape:'htmlall':'UTF-8'}" data-toggle="tab">{$lang.name|escape:'htmlall':'UTF-8'}</a>
+			<a href="#items-{$lang.id_lang|escape:'htmlall':'UTF-8'}" onclick="setLanguage({$lang.id_lang|intval}, '{$lang.iso_code}');" data-toggle="tab">{$lang.name|escape:'htmlall':'UTF-8'}</a>
 		</li>
 	{/foreach}
 </ul>

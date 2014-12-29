@@ -227,11 +227,17 @@ class ThemeConfigurator extends Module
 		$this->context->controller->addJS($this->_path.'js/admin.js');
 	}
 
+	protected function checkEnvironment()
+	{
+		$cookie = new Cookie('psAdmin', '', (int)Configuration::get('PS_COOKIE_LIFETIME_BO'));
+		return isset($cookie->id_employee) && isset($cookie->passwd) && Employee::checkPassword($cookie->id_employee, $cookie->passwd);
+	}
+
 	public function hookdisplayHeader()
 	{
 		$this->context->controller->addCss($this->_path.'css/hooks.css', 'all');
 
-		if ((int)Configuration::get('PS_TC_ACTIVE') == 1 && Tools::getValue('live_configurator_token') && Tools::getValue('live_configurator_token') == $this->getLiveConfiguratorToken())
+		if ((int)Configuration::get('PS_TC_ACTIVE') == 1 && Tools::getValue('live_configurator_token') && Tools::getValue('live_configurator_token') == $this->getLiveConfiguratorToken() && $this->checkEnvironment())
 		{
 			$this->context->controller->addCSS($this->_path.'css/live_configurator.css');
 			$this->context->controller->addJS($this->_path.'js/live_configurator.js');
@@ -317,7 +323,7 @@ class ThemeConfigurator extends Module
 	{
 		$html = '';
 
-		if ((int)Configuration::get('PS_TC_ACTIVE') == 1 && Tools::getValue('live_configurator_token') && Tools::getValue('live_configurator_token') == $this->getLiveConfiguratorToken() && Tools::getIsset('id_employee'))
+		if ((int)Configuration::get('PS_TC_ACTIVE') == 1 && Tools::getValue('live_configurator_token') && Tools::getValue('live_configurator_token') == $this->getLiveConfiguratorToken() && Tools::getIsset('id_employee') && $this->checkEnvironment())
 		{
 			if (Tools::isSubmit('submitLiveConfigurator'))
 			{
