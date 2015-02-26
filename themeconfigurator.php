@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2014 PrestaShop
+* 2007-2015 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,10 +18,10 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2014 PrestaShop SA
-*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
+* @author	PrestaShop SA <contact@prestashop.com>
+* @copyright	2007-2015 PrestaShop SA
+* @license	http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+* International Registered Trademark & Property of PrestaShop SA
 */
 
 if (!defined('_PS_VERSION_'))
@@ -793,7 +793,7 @@ class ThemeConfigurator extends Module
 				'label' => $this->l('Display categories as a list of products instead of the default grid-based display'),
 				'name' => 'grid_list',
 				'value' => (int)Configuration::get('PS_GRID_PRODUCT'),
-				'desc' => 'Works only for first-time users. This setting is overridden by the user\'s choice as soon as the user cookie is set.'
+				'desc' => $this->l('Works only for first-time users. This setting is overridden by the user\'s choice as soon as the user cookie is set.'),
 			),
 			array(
 				'label' => $this->l('Display top banner'),
