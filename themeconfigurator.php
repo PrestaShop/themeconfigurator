@@ -451,7 +451,7 @@ class ThemeConfigurator extends Module
 					image_w = '.(int)$image_w.',
 					image_h = '.(int)$image_h.',
 					active = '.(int)Tools::getValue('item_active').',
-					html = \''.pSQL(Tools::purifyHTML($content), true).'\'
+					html = \''.pSQL($this->filterVar($content), true).'\'
 			WHERE id_item = '.(int)Tools::getValue('item_id')
 		))
 		{
@@ -590,7 +590,7 @@ class ThemeConfigurator extends Module
 					\''.pSQL($image).'\',
 					\''.pSQL($image_w).'\',
 					\''.pSQL($image_h).'\',
-					\''.pSQL(Tools::purifyHTML($content), true).'\',
+					\''.pSQL($this->filterVar($content), true).'\',
 					1)'
 		))
 		{
@@ -836,5 +836,13 @@ class ThemeConfigurator extends Module
 		return Tools::getAdminToken($this->name.(int)Tab::getIdFromClassName($this->name)
 			.(is_object(Context::getContext()->employee) ? (int)Context::getContext()->employee->id :
 				Tools::getValue('id_employee')));
+	}
+
+	protected function filterVar($value)
+	{
+		if (version_compare(_PS_VERSION_, '1.6.0.7', '>=') === true)
+			return Tools::purifyHTML($value);
+		else
+			return filter_var($value, FILTER_SANITIZE_STRING);
 	}
 }
