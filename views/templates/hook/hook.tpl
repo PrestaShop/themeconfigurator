@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 {if isset($htmlitems) && $htmlitems}
-<div id="htmlcontent_{$hook|escape:'htmlall':'UTF-8'}">
+<div id="htmlcontent_{$hook|escape:'htmlall':'UTF-8'}"{if $hook == 'footer'} class="footer-block col-xs-12 col-sm-4"{/if}>
 	<ul class="htmlcontent-home clearfix row">
 		{foreach name=items from=$htmlitems item=hItem}
 			{if $hook == 'left' || $hook == 'right'}
