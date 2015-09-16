@@ -42,7 +42,7 @@
 						{/if}
 						{if $hItem.html}
 							<div class="item-html">
-								{$hItem.html} <i class="icon-double-angle-right"></i>
+								{$hItem.html}
 							</div>
 						{/if}
 					{if $hItem.url}
