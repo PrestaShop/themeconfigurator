@@ -394,7 +394,7 @@ class ThemeConfigurator extends Module
 		if ($image = Db::getInstance()->getValue('SELECT image FROM `'._DB_PREFIX_.'themeconfigurator` WHERE id_item = '.(int)$id_item))
 			$this->deleteImage($image);
 
-		Db::getInstance()->delete(_DB_PREFIX_.'themeconfigurator', 'id_item = '.(int)$id_item);
+		Db::getInstance()->delete('themeconfigurator', 'id_item = '.(int)$id_item);
 
 		if (Db::getInstance()->Affected_Rows() == 1)
 		{
